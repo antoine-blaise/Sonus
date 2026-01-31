@@ -16,18 +16,18 @@ const DOM = {
   themeToggle: document.getElementById('themeToggle')
 };
 
-// State
+
 let queue = JSON.parse(localStorage.getItem('mz:queue') || '[]');
 let currentIndex = parseInt(localStorage.getItem('mz:currentIndex') || '-1', 10);
 let isPlaying = false;
 
-// Persist helpers
+
 function persistState(){
   localStorage.setItem('mz:queue', JSON.stringify(queue));
   localStorage.setItem('mz:currentIndex', String(currentIndex));
 }
 
-// Them toggling
+
 const THEME_KEY = 'mz:theme';
 function applyTheme(theme){
   document.documentElement.setAttribute('data-theme', theme);
@@ -45,7 +45,7 @@ DOM.themeToggle.addEventListener('click', () => {
   DOM.themeToggle.textContent = next === 'dark' ? '🌗' : '🌞';
 });
 
-// JSONP helper for Deezer (public search)
+
 function jsonp(url, callbackName) {
   return new Promise((resolve, reject) => {
     const cb = callbackName || ('cb_' + Date.now() + '_' + Math.floor(Math.random()*1000));
@@ -65,7 +65,7 @@ function jsonp(url, callbackName) {
   });
 }
 
-// Render search results
+
 function renderResults(data){
   DOM.results.innerHTML = '';
   if (!data || !data.data || data.data.length === 0){
@@ -97,7 +97,6 @@ function renderResults(data){
     card.appendChild(img);
     card.appendChild(meta);
 
-    // add to queue on click
     card.addEventListener('click', () => addToQueue(track));
     card.addEventListener('keypress', (e) => { if (e.key === 'Enter') addToQueue(track); });
 
@@ -105,7 +104,7 @@ function renderResults(data){
   });
 }
 
-// Queue logic
+
 function addToQueue(track){
   queue.push(track);
   if (currentIndex === -1){
@@ -153,7 +152,7 @@ function loadTrack(track){
   DOM.playPauseBtn.textContent = '⏸';
 }
 
-// Controls
+
 DOM.playPauseBtn.addEventListener('click', () => {
   if (!DOM.audio.src) return;
   if (isPlaying){
@@ -183,9 +182,9 @@ DOM.nextBtn.addEventListener('click', () => {
   }
 });
 
-// Progress and time updates
+
 DOM.audio.addEventListener('timeupdate', () => {
-  const dur = DOM.audio.duration || 30; // fallback
+  const dur = DOM.audio.duration || 30; 
   const percent = (DOM.audio.currentTime / dur) * 100;
   DOM.progress.value = percent || 0;
   DOM.currentTime.textContent = formatTime(DOM.audio.currentTime || 0);
@@ -202,7 +201,7 @@ DOM.progress.addEventListener('input', () => {
 });
 
 DOM.audio.addEventListener('ended', () => {
-  // auto advance
+
   if (currentIndex < queue.length - 1){
     currentIndex++;
     loadTrack(queue[currentIndex]);
@@ -221,7 +220,7 @@ function formatTime(sec){
   return `${m}:${s}`;
 }
 
-// Keyboard shortcuts: Space play/pause; Shift+ArrowRight next; Shift+ArrowLeft prev
+
 window.addEventListener('keydown', (e) => {
   if (e.code === 'Space' && document.activeElement.tagName !== 'INPUT'){
     e.preventDefault();
@@ -231,7 +230,7 @@ window.addEventListener('keydown', (e) => {
   if (e.shiftKey && e.code === 'ArrowLeft') DOM.prevBtn.click();
 });
 
-// Search handler
+
 DOM.form.addEventListener('submit', async (ev) => {
   ev.preventDefault();
   const q = DOM.q.value.trim();
@@ -248,11 +247,11 @@ DOM.form.addEventListener('submit', async (ev) => {
   }
 });
 
-// Initialize UI from persisted state
+
 (function init(){
   renderQueue();
   if (queue.length > 0 && currentIndex >= 0 && queue[currentIndex]){
-    // Load but do not auto play; user gesture is required by some browsers
+   
     loadTrack(queue[currentIndex]);
   }
 })();
