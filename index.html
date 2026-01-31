@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sonus — Made by Antoine</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="Favicon.png" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <h1>Sonus — Music App</h1>
+      <p class="tag">Search. Queue. Preview.</p>
+    </div>
+
+    <nav class="nav">
+      <button id="themeToggle" aria-label="Toggle theme">🌗</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h2>Deezer-powered music previews</h2>
+        <p class="lead">Search for tracks, add them to a queue, control playback.</p>
+      </div>
+     
+    </section>
+
+    <section class="search-area">
+      <form id="searchForm" class="search-form" aria-label="Search Deezer">
+        <input id="q" type="search" placeholder="Search artist, track or album" required />
+        <button type="submit">Search</button>
+      </form>
+
+      <section id="results" class="results" aria-live="polite">
+     
+      </section>
+    </section>
+
+   
+    <footer class="player" role="region" aria-label="Music player">
+      <div class="now-playing">
+        <div class="track-info">
+          <div id="player-title" class="title">Nothing playing</div>
+          <div id="player-artist" class="artist"></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="buttons">
+          <button id="prevBtn" title="Previous (Shift + ArrowLeft)">⏮</button>
+          <button id="playPauseBtn" title="Play/Pause (Space)">▶</button>
+          <button id="nextBtn" title="Next (Shift + ArrowRight)">⏭</button>
+        </div>
+
+        <div class="progress-wrapper">
+          <span id="currentTime">0:00</span>
+          <input type="range" id="progress" value="0" min="0" max="100" aria-label="Track progress" />
+          <span id="duration">0:00</span>
+        </div>
+      </div>
+
+      <div class="queue">
+        <h4>Queue</h4>
+        <ul id="queueList"></ul>
+      </div>
+
+      <audio id="audio" preload="none"></audio>
+    </footer>
+
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
+
